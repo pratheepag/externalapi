@@ -3,6 +3,8 @@ package com.example.externalapi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.externalapi.model.Quote;
@@ -15,15 +17,21 @@ public class QuoteServiceImpl implements QuoteService{
 	QuoteRepository quoteRepository;
 
 	@Override
-	public List<Quote> getAllQuotes() {
+	public Page<Quote> getAllQuotes(Pageable pageable) {
 		// TODO Auto-generated method stub
-		return (List<Quote>) quoteRepository.findAll();
+		return quoteRepository.findAll(pageable);
 	}
 
 	@Override
 	public void save(Quote quote) {
 		// TODO Auto-generated method stub
 		quoteRepository.save(quote);
+	}
+
+	@Override
+	public List<Quote> getAllQuotesByQuote(String quote, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return quoteRepository.findAllByQuoteContains(quote, pageable);
 	}
 
 }
