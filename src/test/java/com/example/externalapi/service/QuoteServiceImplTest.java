@@ -13,8 +13,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.example.externalapi.model.Quote;
 import com.example.externalapi.repository.QuoteRepository;
@@ -28,25 +31,25 @@ public class QuoteServiceImplTest {
 	@Mock
 	public QuoteRepository quoteRepository;
 	
-	/*@Test
+	@Test
 	public void getAllQuotesTest() {
 		// TODO Auto-generated method stub
-		when(quoteRepository.findAll()).thenReturn(getQuotesData());
-		Pageable pageable = PageRequest.of(0, 2);
-		List<Quote> quotesList = quoteService.getAllQuotes(pageable);
+		Pageable pageable = PageRequest.of(0, 2, Sort.by("id").descending());
+		when(quoteRepository.findAll(pageable)).thenReturn(getQuotesData());
+		Page<Quote> quotesList = quoteService.getAllQuotes(pageable);
 		verify(quoteRepository).findAll(pageable);
-		assertEquals(2, quotesList.size());
-		
+		assertEquals(2, quotesList.getSize());
 	}
 	
-	public List<Quote> getQuotesData(){
+	public Page<Quote> getQuotesData(){
 		List<Quote> quotesList = new ArrayList<>();
 		Quote quote1 = new Quote(1, "Beautiful");
 		Quote quote2 = new Quote(1, "Beautiful");
 		quotesList.add(quote1);
 		quotesList.add(quote2);
-		return quotesList;
-	} */
+		Page<Quote> page = new PageImpl<>(quotesList);
+		return page;
+	}
 	
 	@Test
 	public void saveTest() {
